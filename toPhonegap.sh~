@@ -1,9 +1,0 @@
-
-cp Jeeves/README.md jeeves_phonegap/www/
-cp -r Jeeves/* jeeves_phonegap/www/
-echo "finished copying files."
-if [ "$1" = "-r" ]; then
-	cd jeeves_phonegap/
-	phonegap run android --device
-	cd ..
-fi
