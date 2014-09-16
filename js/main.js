@@ -6,6 +6,10 @@ var model = {
 
 var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might want to be changed.
 
+.controller("headerCtrl", function($scope, $rootScope) {
+	$scope.nightlife = model;
+})
+
 // Controller for map view
 .controller("mapCtrl", function($scope, $rootScope) {
 	$scope.nightlife = model;
