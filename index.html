@@ -16,9 +16,9 @@
 
 </head>
 
-<body ng-style="{'background-image': 'url(images/tweed.png)'}">
-	<div id="header" class="page-header well text-center" ng-controller="headerCtrl" class>
-		<h1 ng-style="{'font-family': 'Arial Narrow'}"><u>{{nightlife.title}}</u></h1>
+<body ng-style="{'background-image': 'url(images/tweed.png)'}" ng-controller="rootCtrl">
+	<div id="header" class="page-header well text-center">
+		<h1 ng-style="{'font-family': 'Arial Narrow'}"><u>{{title}}</u></h1>
 	</div>
 	<!-- Map view -->
 	<div id="map-view" class="well" ng-controller="mapCtrl">
