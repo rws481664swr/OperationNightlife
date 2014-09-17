@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="nightlifeApp">
 <head>
-	<title>Secret Project</title>
+	<title>**Secret Project**</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/bootstrap-theme.min.css" rel="stylesheet" />
 	<script src="js/angular.min.js"></script>
@@ -13,7 +13,6 @@
 	<script src="js/main.js"></script>
 	<!-- Implement auxiliary JS files here -->
 
-
 </head>
 
 <body ng-style="{'background-image': 'url(images/tweed.png)'}" ng-controller="rootCtrl">
@@ -21,15 +20,5 @@
 		<h1 ng-style="{'font-family': 'Arial Narrow'}"><u>{{title}}</u></h1>
 	</div>
 	<!-- Map view -->
-	<div id="map-view" class="well" ng-controller="mapCtrl">
-		<div class="well text-center">THIS IS WHERE THE MAP WILL GO.</div>
-	</div>
-	<div id="map-filter-buttons" class="btn-group">
-		<button type="button" class="btn btn-default">Current Positions</button>
-		<button type="button" class="btn btn-default">Historical Positions</button>
-	</div>
-	<div id="login-buttons-div" class="btn-group">
-		<button type="button" class="btn btn-default">Log in</button>
-		<button type="button" class="btn btn-default">Log Out</button>
-	</div>
+	<ng-include src="'mapview.html'"></ng-include>
 </body>
