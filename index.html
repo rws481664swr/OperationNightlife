@@ -30,4 +30,13 @@
 			<button type="button" class="btn btn-default">Log Out</button>
 		</div>
 	</div>
+	<div ng-controller="userCtrl">
+		<h2 ng-style="{'font-family': 'Arial Narrow'}"><u>TESTING DB</u></h1>
+		<button ng-click="getItems()">GET USERS FOR DB TESTING</button>
+		<ul>
+			<li>
+				<p>{{users[0].name}}</p>
+			</li>
+		</ul>
+	</div>
 </body>
