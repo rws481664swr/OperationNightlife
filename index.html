@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="nightlifeApp">
-<head>
+<head ng-controller="rootCtrl">
 	<title>**Secret Project**</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/bootstrap-theme.min.css" rel="stylesheet" />
@@ -21,19 +21,10 @@
 		body {height: 100%; margin: 0; padding: 0}
 		#map-canvas {height: 100%}
 	</style>
-	<script type="text/javascript">
-		function initialize() {
-			var mapOptions = {
-				center: {lat: 42.3677816, lng: -71.2585826},
-				zoom: 15
-			};
-			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-		}
-		google.maps.event.addDomListener(window, 'load', initialize);
-	</script>
 </head>
 
 <body ng-style="{'background-image': 'url(images/tweed.png)'}" ng-controller="rootCtrl">
+	<!-- This is for the Facebook SDK. Leave for now until we start working on this. -->
 	<script>
 	  window.fbAsyncInit = function() {
 	    FB.init({
