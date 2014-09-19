@@ -34,11 +34,28 @@
 </head>
 
 <body ng-style="{'background-image': 'url(images/tweed.png)'}" ng-controller="rootCtrl">
+	<script>
+	  window.fbAsyncInit = function() {
+	    FB.init({
+	      appId      : '702181949872529',
+	      xfbml      : true,
+	      version    : 'v2.1'
+	    });
+	  };
+
+	  (function(d, s, id){
+	     var js, fjs = d.getElementsByTagName(s)[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement(s); js.id = id;
+	     js.src = "//connect.facebook.net/en_US/sdk.js";
+	     fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
+	</script>
 	<div id="header" class="page-header well text-center">
 		<h1 ng-style="{'font-family': 'Arial Narrow'}"><u>{{title}}</u></h1>
 	</div>
 	<div id="map-view" class="well" ng-controller="mapCtrl">
-		<div class="well text-center" id="map-canvas"></div>
+		<div class="well text-center" ng-style="{'height': '500px', 'margin': '30px'}" id="map-canvas"></div>
 		<div id="map-filter-buttons" class="btn-group">
 		<button type="button" class="btn btn-default">Current Positions</button>
 		<button type="button" class="btn btn-default">Historical Positions</button>
