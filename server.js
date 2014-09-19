@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env nodejs --harmony
 
 'use strict';
 var express = require('express');
@@ -6,11 +6,11 @@ var bodyParser = require('body-parser'); // this allows us to pass JSON values t
 var app = express();
 
 var monk = require('monk');
-var db = monk('localhost:27017/hermesD');
+var db = monk('localhost:27017/hermesd');
 
 
 // serve static content from the public folder 
-app.use("/", express.static(__dirname + '/public'));
+app.use("/", express.static(__dirname + '/'));
 
 
 // parse the bodies of all other queries as json
@@ -26,9 +26,9 @@ app.use(function(req, res, next) {
 
 
 // get a particular item from the model
-app.get('/model/:collection/:id', function(req, res) {
-    var collection = db.get(req.params.collection);
-    collection.find({_id: req.params.id}, {}, function(e, docs) {
+app.get('/model/:users/:id', function(req, res) {
+    var users = db.get(req.params.users);
+    users.find({_id: req.params.id}, {}, function(e, docs) {
         console.log(JSON.stringify(docs));
         if (docs.length>0)
             res.json(200, docs[0]);
@@ -39,18 +39,18 @@ app.get('/model/:collection/:id', function(req, res) {
 
 
 // get all items from the model
-app.get('/model/:collection', function(req, res) {
-    var collection = db.get(req.params.collection);
-    collection.find({}, {}, function(e, docs) {
+app.get('/model/:users', function(req, res) {
+    var users = db.get(req.params.users);
+    users.find({}, {}, function(e, docs) {
         console.log(JSON.stringify(docs));
         res.json(200, docs);
     })
 });
 
 // change an item in the model
-app.put('/model/:collection/:id', function(req, res) {
-    var collection = db.get(req.params.collection);
-    collection.update({
+app.put('/model/:users/:id', function(req, res) {
+    var users = db.get(req.params.users);
+    users.update({
         "_id": req.params.id
     }, req.body);
     res.json(200, {});
@@ -59,20 +59,20 @@ app.put('/model/:collection/:id', function(req, res) {
 // add new item to the model
 // in this example we show how to use javascript promises
 // to simply asynchronous calls
-app.post('/model/:collection', function(req, res) {
+app.post('/model/:users', function(req, res) {
     console.log("post ... " + JSON.stringify(req.body));
-    var collection = db.get(req.params.collection);
-    var promise = collection.insert(req.body);
+    var users = db.get(req.params.users);
+    var promise = users.insert(req.body);
     promise.success(function(doc){res.json(200,doc)});
     promise.error(function(error){res.json(404,error)});
 });
 
 // delete a particular item from the model
-app.delete('/model/:collection/:id', function(req, res) {
+app.delete('/model/:users/:id', function(req, res) {
     var id = req.params.id;
     console.log("deleting " + id);
-    var collection = db.get(req.params.collection);
-    collection.remove({
+    var users = db.get(req.params.users);
+    users.remove({
         _id: id
     });
     res.json(200, {});
