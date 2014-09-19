@@ -16,7 +16,7 @@ var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might 
 	$scope.nightlife = model;
 })
 
-.controller("userCtrl", function($scope, $rootScope) {
+.controller("userCtrl", function($scope, $rootScope, $http) {
 	$scope.users = [];
 
 	 $scope.putItem = function(item) {
@@ -38,7 +38,9 @@ var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might 
     }
 
     $scope.getItems = function() {
-        $http.get("/showall.json").success(function(data) {
+    	console.log("about to call http.get");
+        $http.get("/model/users").success(function(data) {
+        	  console.log("about to call http.get inside "+ data);
             $scope.users = data;
         })
     };
