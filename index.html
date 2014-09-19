@@ -19,6 +19,15 @@
 	<div id="header" class="page-header well text-center">
 		<h1 ng-style="{'font-family': 'Arial Narrow'}"><u>{{title}}</u></h1>
 	</div>
-	<!-- Map view -->
-	<ng-include src="'mapview.html'"></ng-include>
+	<div id="map-view" class="well" ng-controller="mapCtrl">
+		<div class="well text-center">THIS IS WHERE THE MAP WILL GO.</div>
+		<div id="map-filter-buttons" class="btn-group">
+		<button type="button" class="btn btn-default">Current Positions</button>
+		<button type="button" class="btn btn-default">Historical Positions</button>
+		</div>
+		<div id="login-buttons-div" class="btn-group">
+			<button type="button" class="btn btn-default">Log in</button>
+			<button type="button" class="btn btn-default">Log Out</button>
+		</div>
+	</div>
 </body>
