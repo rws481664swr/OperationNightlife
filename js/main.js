@@ -2,21 +2,14 @@
 
 var model = {
 	position: {
-		latitude:0,
-		longitude:0,
-		altitude:0,
-		accuracy:0,
-		altitudeAccuracy:0,
-		heading:0,
-		speed:0,
-		timestamp:0,
-		valid:false
+		valid:false		// To check we get the position.
 	}
 };
 // Fluid API Implementation - if you do not know what this means, READ THE BOOK
 var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might want to be changed.
 
 .run(function(){
+
 		// Get your current location.
 		// onSuccess Callback
 		var onSuccess = function(position) {
@@ -31,6 +24,7 @@ var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might 
 		   model.position.valid = true;
 		};
 		// onError Callback
+		// This is only debugging.
 		function onError(error) {
 		    alert('code: '    + error.code    + '\n' +
 		          'message: ' + error.message + '\n');
