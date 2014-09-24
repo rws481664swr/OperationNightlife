@@ -2,42 +2,37 @@
 
 var model = {
 	position: {
-		latitude:42.3677816,
-		longitude:-71.2585826,
-        zoom: 17,
-		altitude:0,
-		accuracy:0,
-		altitudeAccuracy:0,
-		heading:0,
-		speed:0,
-		timestamp:0,
-		valid:false
+		latitude: 42.3677816,
+		longitude: -71.2585826,
+    zoom: 17
+    valid: false		// To check we get the position.
 	}
 };
-// Fluid API Implementation - if you do not know what this means, READ THE BOOK
+// Fluid API Implementation
 var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might want to be changed.
 
 .run(function(){
     // Get your current location.
-    // onSuccess Callback
-    var onSuccess = function(position) {
-       model.position.latitude = position.coords.latitude;
-       model.position.longitude = position.coords.longitude;
-       model.position.altitude = position.coords.altitude;
-       model.position.accuracy = position.coords.accuracy;
-       model.position.altitudeAccuracy = position.coords.altitudeAccuracy;
-       model.position.heading = position.coords.heading;
-       model.position.speed = position.coords.speed;
-       model.position.timestamp =  position.timestamp;
-       model.position.valid = true;
-    };
-    // onError Callback
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
-    }
-    // the current GPS coordinates
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		// onSuccess Callback
+		var onSuccess = function(position) {
+		   model.position.latitude = position.coords.latitude;
+		   model.position.longitude = position.coords.longitude;
+		   model.position.altitude = position.coords.altitude;
+		   model.position.accuracy = position.coords.accuracy;
+		   model.position.altitudeAccuracy = position.coords.altitudeAccuracy;
+		   model.position.heading = position.coords.heading;
+		   model.position.speed = position.coords.speed;
+		   model.position.timestamp =  position.timestamp;
+		   model.position.valid = true;
+		};
+		// onError Callback
+		// This is only debugging.
+		function onError(error) {
+		    alert('code: '    + error.code    + '\n' +
+		          'message: ' + error.message + '\n');
+		}
+		// the current GPS coordinates
+		navigator.geolocation.getCurrentPosition(onSuccess, onError);
 })
 
 .run(function() {
@@ -46,7 +41,7 @@ var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might 
 		zoom: model.position.zoom
 	};
 	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-	var marker = new google.maps.Marker({
+	var userMarker = new google.maps.Marker({
 		position: model.position,
 		map: map,
 		title: "Your Current Location"
@@ -54,7 +49,7 @@ var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might 
 
 // highest level scope
 .controller("rootCtrl", function($scope, $rootScope) {
-	$scope.title = "Hermes: Protector of The Road";
+	$scope.title = "Codename: Operation Nightlife";
 	$scope.model = model;
 })
 

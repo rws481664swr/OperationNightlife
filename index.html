@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html ng-app="nightlifeApp">
-<<<<<<< HEAD
 <head ng-controller="rootCtrl">
 	<title>Codename: Nightlife</title>
-=======
-<head>
-	<title>Codename Nightlife</title>
->>>>>>> master
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/bootstrap-theme.min.css" rel="stylesheet" />
-	<script src="js/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="js/angular.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
@@ -29,23 +24,8 @@
 
 <body ng-style="{'background-image': 'url(images/tweed.png)'}" ng-controller="rootCtrl" ng-cloak>
 	<!-- This is for the Facebook SDK. Leave for now until we start working on this. -->
-	<script>
-	  window.fbAsyncInit = function() {
-	    FB.init({
-	      appId      : '702181949872529',
-	      xfbml      : true,
-	      version    : 'v2.1'
-	    });
-	  };
-
-	  (function(d, s, id){
-	     var js, fjs = d.getElementsByTagName(s)[0];
-	     if (d.getElementById(id)) {return;}
-	     js = d.createElement(s); js.id = id;
-	     js.src = "//connect.facebook.net/en_US/sdk.js";
-	     fjs.parentNode.insertBefore(js, fjs);
-	   }(document, 'script', 'facebook-jssdk'));
-	</script>
+	<!-- Must be the first script after the body tag. -->
+	<script src="js/FacebookAuth.js"></script>
 	<div id="header" class="page-header well text-center">
 		<h1 ng-style="{'font-family': 'Arial Narrow'}"><b><u>{{title}}</u><b></h1>
 	</div>
