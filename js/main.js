@@ -46,6 +46,7 @@ var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might 
 		map: map,
 		title: "Your Current Location"
 	});
+});
 
 // highest level scope
 .controller("rootCtrl", function($scope, $rootScope) {
