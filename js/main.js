@@ -38,8 +38,10 @@ angular
 })
 
 .run(function() {
+  console.log("Lat: " + model.position.latitude + typeof model.position.latitude);
+  console.log("Long: " + model.position.longitude + typeof model.position.longitude);
 	var mapOptions = {
-		center: {lat: model.position.lat, lng: model.position.lng},
+		center: {lat: model.position.latitude, lng: model.position.longitude},
 		zoom: model.position.zoom
 	};
 	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -96,4 +98,4 @@ angular
 //             $scope.getItems();
 //         })
 //     };
-// });
+// })
