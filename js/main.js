@@ -14,6 +14,7 @@ angular
 .module("nightlifeApp", []) //TODO: module name might want to be changed.
 
 .run(function(){
+  var time = Date.now();
     // Get your current location.
 		// onSuccess Callback
 		var onSuccess = function(position) {
@@ -26,6 +27,7 @@ angular
 		   model.position.speed = position.coords.speed;
 		   model.position.timestamp =  position.timestamp;
 		   model.position.valid = true;
+       console.log ("Time (ms): " + (Date.now() - time));
 		};
 		// onError Callback
 		// This is only debugging.
@@ -37,20 +39,23 @@ angular
 		navigator.geolocation.getCurrentPosition(onSuccess, onError);
 })
 
-.run(function() {
-  console.log("Lat: " + model.position.latitude + typeof model.position.latitude);
-  console.log("Long: " + model.position.longitude + typeof model.position.longitude);
-  latlng = {lat: model.position.latitude, lng: model.position.longitude};
-	var mapOptions = {
-		center: latlng,
-		zoom: model.position.zoom
-	};
-	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-	var userMarker = new google.maps.Marker({
-		position: latlng,
-		map: map,
-		title: "Your Current Location"
-	});
+.run(function($timeout) {
+  $timeout(function() {
+    console.log("Lat: " + model.position.latitude);
+    console.log("Long: " + model.position.longitude);
+    latlng = {lat: model.position.latitude, lng: model.position.longitude};
+    var mapOptions = {
+      center: latlng,
+      zoom: model.position.zoom
+    };
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    var userMarker = new google.maps.Marker({
+      position: latlng,
+      map: map,
+      title: "Your Current Location"
+    });
+  }, 300);
+  
 })
 
 // highest level scope
