@@ -40,13 +40,14 @@ angular
 .run(function() {
   console.log("Lat: " + model.position.latitude + typeof model.position.latitude);
   console.log("Long: " + model.position.longitude + typeof model.position.longitude);
+  latlng = {lat: model.position.latitude, lng: model.position.longitude};
 	var mapOptions = {
-		center: {lat: model.position.latitude, lng: model.position.longitude},
+		center: latlng,
 		zoom: model.position.zoom
 	};
 	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	var userMarker = new google.maps.Marker({
-		position: model.position,
+		position: latlng,
 		map: map,
 		title: "Your Current Location"
 	});
