@@ -9,7 +9,9 @@ var model = {
 	}
 };
 // Fluid API Implementation
-var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might want to be changed.
+angular
+
+.module("nightlifeApp", []) //TODO: module name might want to be changed.
 
 .run(function(){
     // Get your current location.
@@ -33,7 +35,7 @@ var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might 
 		}
 		// the current GPS coordinates
 		navigator.geolocation.getCurrentPosition(onSuccess, onError);
-});
+})
 
 .run(function() {
 	var mapOptions = {
@@ -46,18 +48,18 @@ var nightlifeApp = angular.module("nightlifeApp", []) //TODO: module name might 
 		map: map,
 		title: "Your Current Location"
 	});
-});
+})
 
 // highest level scope
 .controller("rootCtrl", function($scope, $rootScope) {
 	$scope.title = "Codename: Operation Nightlife";
 	$scope.model = model;
-});
+})
 
 // Controller for map view
 .controller("mapCtrl", function($scope, $rootScope) {
 	$scope.model = model;
-});
+})
 
 // .controller("userCtrl", function($scope, $rootScope, $http) {
 // 	$scope.users = [];
