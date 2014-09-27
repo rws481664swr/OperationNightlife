@@ -5,7 +5,7 @@ var model = {
 		latitude: 42.3677816,
 		longitude: -71.2585826,
     zoom: 17,
-    valid: false		// To check we get the position.
+    valid: false // To check we get the position.
 	}
 };
 // Fluid API Implementation
