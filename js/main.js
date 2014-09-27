@@ -27,7 +27,7 @@ angular
 		   model.position.speed = position.coords.speed;
 		   model.position.timestamp =  position.timestamp;
 		   model.position.valid = true;
-       console.log ("Time (ms): " + (Date.now() - time));
+       alert("Time (ms): " + (Date.now() - time));
 		};
 		// onError Callback
 		// This is only debugging.
@@ -41,8 +41,7 @@ angular
 
 .run(function($timeout) {
   $timeout(function() {
-    console.log("Lat: " + model.position.latitude);
-    console.log("Long: " + model.position.longitude);
+    alert("Lat: " + model.position.latitude + "\nLong: " + model.position.longitude);
     latlng = {lat: model.position.latitude, lng: model.position.longitude};
     var mapOptions = {
       center: latlng,
@@ -54,7 +53,7 @@ angular
       map: map,
       title: "Your Current Location"
     });
-  }, 300);
+  }, 800);
   
 })
 
