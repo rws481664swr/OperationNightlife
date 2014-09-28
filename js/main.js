@@ -4,7 +4,7 @@ var model = {
 	position: {
 		latitude: 42.3677816,
 		longitude: -71.2585826,
-    zoom: 17,
+    zoom: 18,
     valid: false // To check we get the position.
 	}
 };
@@ -18,16 +18,29 @@ angular
     // Get your current location.
 		// onSuccess Callback
 		var onSuccess = function(position) {
-		   model.position.latitude = position.coords.latitude;
-		   model.position.longitude = position.coords.longitude;
-		   model.position.altitude = position.coords.altitude;
-		   model.position.accuracy = position.coords.accuracy;
-		   model.position.altitudeAccuracy = position.coords.altitudeAccuracy;
-		   model.position.heading = position.coords.heading;
-		   model.position.speed = position.coords.speed;
-		   model.position.timestamp =  position.timestamp;
-		   model.position.valid = true;
-       alert("Time (ms): " + (Date.now() - time));
+		    model.position.latitude = position.coords.latitude;
+		    model.position.longitude = position.coords.longitude;
+		    model.position.altitude = position.coords.altitude;
+		    model.position.accuracy = position.coords.accuracy;
+		    model.position.altitudeAccuracy = position.coords.altitudeAccuracy;
+		    model.position.heading = position.coords.heading;
+		    model.position.speed = position.coords.speed;
+		    model.position.timestamp =  position.timestamp;
+		    model.position.valid = true;
+            alert("Time to retrieve GPS Position object (ms): " + (Date.now() - time));
+            // TODO: Currently, this map creation function below is part of this run function in order to ensure accurate information, but it should be made into its own service function in the future.
+            latlng = {lat: model.position.latitude, lng: model.position.longitude};
+            var mapOptions = {
+                center: latlng,
+                zoom: model.position.zoom,
+                draggable: false
+            };
+            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            var userMarker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: "Your Current Location"
+            });
 		};
 		// onError Callback
 		// This is only debugging.
@@ -39,24 +52,6 @@ angular
 		navigator.geolocation.getCurrentPosition(onSuccess, onError);
 })
 
-.run(function($timeout) {
-  $timeout(function() {
-    alert("Lat: " + model.position.latitude + "\nLong: " + model.position.longitude);
-    latlng = {lat: model.position.latitude, lng: model.position.longitude};
-    var mapOptions = {
-      center: latlng,
-      zoom: model.position.zoom
-    };
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    var userMarker = new google.maps.Marker({
-      position: latlng,
-      map: map,
-      title: "Your Current Location"
-    });
-  }, 800);
-  
-})
-
 // highest level scope
 .controller("rootCtrl", function($scope, $rootScope) {
 	$scope.title = "Codename: Operation Nightlife";
@@ -66,6 +61,41 @@ angular
 // Controller for map view
 .controller("mapCtrl", function($scope, $rootScope) {
 	$scope.model = model;
+
+    $scope.zoom = function(value) {
+        $scope.model.position.zoom += value;
+        if ($scope.model.position.zoom > 18) {
+            $scope.model.position.zoom = 18;
+            alert("Cannot be zoomed in further.");
+        }
+        $scope.generateMap();
+    }
+
+    $scope.zoomOut = function() {
+        $scope.zoom(-1);
+    }
+
+    $scope.zoomIn = function() {
+        $scope.zoom(1);
+    }
+
+    $scope.generateMap = function() {
+        latlng = {lat: model.position.latitude, lng: model.position.longitude};
+        var mapOptions = {
+            center: latlng,
+            zoom: model.position.zoom
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        var userMarker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: "Your Current Location"
+        });
+    }
+
+    $scope.centerMap = function() {
+        $scope.generateMap();
+    }
 })
 
 // .controller("userCtrl", function($scope, $rootScope, $http) {

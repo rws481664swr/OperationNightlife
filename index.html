@@ -31,9 +31,14 @@
 	</div>
 	<div id="map-view" class="well" ng-controller="mapCtrl">
 		<div class="well text-center" ng-style="{'height': '400px', 'margin': '15px'}" id="map-canvas"></div>
-		<div id="map-filter-buttons" class="btn-group">
-		<button type="button" class="btn btn-default btn-lg">Current Positions</button>
-		<button type="button" class="btn btn-default btn-lg">Historical Positions</button>
+        <button type="button" class="btn btn-default" ng-click="centerMap()">Center Map</button>
+		<div id="map-zoom-buttons" class="btn-group">
+            <button type="button" class="btn btn-default" ng-click="zoomOut()">Zoom Out</button>
+            <button type="button" class="btn btn-default" ng-click="zoomIn()">Zoom In</button>
+		</div>
+        <div id="map-filter-buttons" class="btn-group">
+		    <button type="button" class="btn btn-default btn-lg">Current Positions</button>
+		    <button type="button" class="btn btn-default btn-lg">Historical Positions</button>
 		</div>
 	</div>
 <!-- 	<div ng-controller="userCtrl">
