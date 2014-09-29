@@ -4,8 +4,8 @@ var model = {
 	position: {
 		latitude: 42.3677816,
 		longitude: -71.2585826,
-    zoom: 18,
-    valid: false // To check we get the position.
+        zoom: 18,
+        valid: false // To check we get the position.
 	}
 };
 // Fluid API Implementation
@@ -39,7 +39,8 @@ angular
             var userMarker = new google.maps.Marker({
                 position: latlng,
                 map: map,
-                title: "Your Current Location"
+                title: "Your Current Location",
+                animation: google.maps.Animation.DROP
             });
 		};
 		// onError Callback
@@ -68,6 +69,10 @@ angular
             $scope.model.position.zoom = 18;
             alert("Cannot be zoomed in further.");
         }
+        if ($scope.model.position.zoom < 9) {
+            $scope.model.position.zoom = 9;
+            alert("Cannot be zoomed out further.");
+        }
         $scope.generateMap();
     }
 
@@ -79,58 +84,74 @@ angular
         $scope.zoom(1);
     }
 
+    //TODO: This should be implemented as a service in the future.
     $scope.generateMap = function() {
         latlng = {lat: model.position.latitude, lng: model.position.longitude};
         var mapOptions = {
             center: latlng,
-            zoom: model.position.zoom
+            zoom: model.position.zoom,
+            draggable: false
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        var circle = new google.maps.Circle({
+            center: latlng,
+            radius: $scope.model.position.accuracy,
+            map: map,
+            fillColor: '#0000FF',
+            fillOpacity: 0.5,
+            strokeColor: '#0000FF',
+            strokeOpacity: 0.5
+        })
+
         var userMarker = new google.maps.Marker({
             position: latlng,
             map: map,
-            title: "Your Current Location"
+            title: "Your Current Location",
+            animation: google.maps.Animation.DROP,
+            icon: circle
         });
     }
 
     $scope.centerMap = function() {
+        $scope.model.position.zoom = 18;
         $scope.generateMap();
     }
 })
 
-// .controller("userCtrl", function($scope, $rootScope, $http) {
-// 	$scope.users = [];
+.controller("userCtrl", function($scope, $rootScope, $http) {
+	$scope.users = [];
 
-// 	 $scope.putItem = function(item) {
-//         console.log("putting: " + JSON.stringify(item));
-//         $http.put("/model/" + item.id, item).success(function(data, status, headers, config) {
-//             console.log(JSON.stringify(['Success', data, status, headers, config]))
-//         }).error(function(data, status, headers, config) {
-//             console.log(JSON.stringify(['Error', data, status, headers, config]))
-//         })
-//     }
+	 $scope.putItem = function(item) {
+         console.log("putting: " + JSON.stringify(item));
+         $http.put("/model/" + item.id, item).success(function(data, status, headers, config) {
+             console.log(JSON.stringify(['Success', data, status, headers, config]))
+         }).error(function(data, status, headers, config) {
+             console.log(JSON.stringify(['Error', data, status, headers, config]))
+         })
+     }
 
-//     $scope.postItem = function(item) {
-//         console.log("posting: " + JSON.stringify(item));
-//         $http.post("/model", item).success(function(data, status, headers, config) {
-//             console.log(JSON.stringify(['Success', data, status, headers, config]))
-//         }).error(function(data, status, headers, config) {
-//             console.log(JSON.stringify(['Error', data, status, headers, config]))
-//         })
-//     }
+     $scope.postItem = function(item) {
+         console.log("posting: " + JSON.stringify(item));
+         $http.post("/model", item).success(function(data, status, headers, config) {
+             console.log(JSON.stringify(['Success', data, status, headers, config]))
+         }).error(function(data, status, headers, config) {
+             console.log(JSON.stringify(['Error', data, status, headers, config]))
+         })
+     }
 
-//     $scope.getItems = function() {
-//     	console.log("about to call http.get");
-//         $http.get("/model/users").success(function(data) {
-//         	  console.log("about to call http.get inside "+ data);
-//             $scope.users = data;
-//         })
-//     };
+     $scope.getItems = function() {
+     	console.log("about to call http.get");
+         $http.get("/model/users").success(function(data) {
+         	  console.log("about to call http.get inside "+ data);
+             $scope.users = data;
+         })
+     };
 
-//     $scope.deleteItem = function(item) {
-//         $http.delete("/model/"+item.id).success(function() {
-//             console.log("just deleted "+JSON.stringify(item));
-//             $scope.getItems();
-//         })
-//     };
-// })
+     $scope.deleteItem = function(item) {
+         $http.delete("/model/"+item.id).success(function() {
+             console.log("just deleted "+JSON.stringify(item));
+             $scope.getItems();
+         })
+     };
+})
