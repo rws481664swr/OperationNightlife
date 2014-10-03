@@ -6,7 +6,10 @@ var model = {
 		longitude: -71.2585826,
         zoom: 18,
         valid: false // To check we get the position.
-	}
+	},
+    users:{
+
+    }
 };
 // Fluid API Implementation
 angular
