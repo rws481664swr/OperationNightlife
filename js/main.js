@@ -141,11 +141,12 @@ angular
      }
 
      $scope.getItems = function() {
-     	console.log("about to call http.get");
-         $http.get("/model/users").success(function(data) {
-         	  console.log("about to call http.get inside "+ data);
-             $scope.users = data;
-         })
+//     	console.log("about to call http.get");
+//         $http.get("/model/users").success(function(data) {
+//         	  console.log("about to call http.get inside "+ data);
+//             $scope.users = data;
+//         })
+         $scope.users = db.ids();
      };
 
      $scope.deleteItem = function(item) {
