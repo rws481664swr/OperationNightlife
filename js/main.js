@@ -61,16 +61,19 @@ angular
 
 // Controller for map view
 .controller("mapCtrl", function($scope, $rootScope) {
+    $scope.closest_zoom = 18;
+    $scope.farthest_zoom = 9;
+
 	$scope.model = model;
 
     $scope.zoom = function(value) {
         $scope.model.position.zoom += value;
-        if ($scope.model.position.zoom > 18) {
-            $scope.model.position.zoom = 18;
+        if ($scope.model.position.zoom > $scope.closest_zoom) {
+            $scope.model.position.zoom = $scope.closest_zoom;
             alert("Cannot be zoomed in further.");
         }
-        if ($scope.model.position.zoom < 9) {
-            $scope.model.position.zoom = 9;
+        if ($scope.model.position.zoom < $scope.farthest_zoom) {
+            $scope.model.position.zoom = $scope.farthest_zoom;
             alert("Cannot be zoomed out further.");
         }
         $scope.generateMap();
@@ -84,7 +87,7 @@ angular
         $scope.zoom(1);
     }
 
-    //TODO: This should be implemented as a service in the future.
+    //TODO: This should be implemented as a service.
     $scope.generateMap = function(userPosition) {
         // Sets latitude and longitude to current user's registered position.
         var latlng = {lat: model.position.latitude, lng: model.position.longitude};
@@ -129,13 +132,21 @@ angular
 
     }
 
-    //TODO: This should be implemented as a service in the future.
+    //TODO: This should be implemented as a service.
     // Creates a marker on the map at the local/remote user's coordinates. If accuracy of those coordinates is greater
     // than 100 meters, we instead generate a circle indicating that the user is somewhere inside the circle.
     $scope.createUserMarker = function(user, latlng, map, circle) {
         // For debugging purposes.
         console.log("User's accuracy radius (in meters): " + user.position.accuracy);
 
+        // Creates a circle icon if user's accuracy is greater than 100 meters
+        // Center: Lat/Lng coordinates referring to center of the circle
+        // Radius: Radius, in meters, of the circle
+        // Map: Map that the circle should be created on
+        // fillColor: Color of the circle
+        // fillOpacity: Opacity of the circle
+        // strokeColor: Color of the outline of the circle
+        // strokeOpacity: Opacity of the outline of the circle
         if (circle) {
             var circle = new google.maps.Circle({
                 center: latlng,
@@ -147,6 +158,13 @@ angular
                 strokeOpacity: 0.5
             })
 
+            // Creates a user marker (either an actual marker or a circle)
+            // Position: Lat/Lng coordinates referring to center of the circle
+            // Map: Map that the circle should be created on
+            // Title: Title referring to a marker. TODO: Figure out where this appears on the user's end.
+            // Animation: Either DROP or BOUNCE. DROP drops the marker onto the map. BOUNCE repeatedly bounces the marker
+            // until we call a method to stop the bounce.
+            // Icon: If enabled, sets marker from default marker image to another image (e.g. circle)
             var userMarker = new google.maps.Marker({
                 position: latlng,
                 map: map,
@@ -156,6 +174,7 @@ angular
             });
         }
         else {
+            // See above comments
             var userMarker = new google.maps.Marker({
                 position: latlng,
                 map: map,
@@ -165,8 +184,9 @@ angular
         }
     }
 
+    // Centers the map on the local user, resetting the zoom distance to 18 (closest distance).
     $scope.centerMap = function() {
-        $scope.model.position.zoom = 18;
+        $scope.model.position.zoom = $scope.closest_zoom;
         $scope.generateMap();
     }
 })
