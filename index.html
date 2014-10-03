@@ -37,18 +37,47 @@
             <button type="button" class="btn btn-default" ng-click="zoomOut()">Zoom Out</button>
             <button type="button" class="btn btn-default" ng-click="zoomIn()">Zoom In</button>
 		</div>
-        <div id="map-filter-buttons" class="btn-group">
-		    <button type="button" class="btn btn-default btn-lg">Current Positions</button>
-		    <button type="button" class="btn btn-default btn-lg">Historical Positions</button>
-		</div>
+
+        <div ng-controller="DropdownCtrl">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default">Current Location</button>
+                <button type="button" class="btn btn-default dropdown-toggle">
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="choice in items">
+                        <a href="#">{{choice}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-controller="DropdownCtrl">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default">History Position</button>
+                <button type="button" class="btn btn-default dropdown-toggle">
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="choice in items">
+                        <a href="#">{{choice}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 	</div>
 
  	<div ng-controller="userCtrl">
 		<h2 ng-style="{'font-family': 'Arial Narrow'}">TESTING DB</h2>
 		<button ng-click="getItems()">GET USERS FOR DB TESTING</button>
 		<ul>
-			<li>
-				<p>{{users[0].user}}</p>
+
+			<li ng-repeat="user in users">
+				<p>"Name:" {{user.user}}</p>
+                <p>"Latitude:" {{user.latitude}}</p>
+                <p>"Longitude: "{{user.longitude}}</p>
 			</li>
 		</ul>
 	</div>
