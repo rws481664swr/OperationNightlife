@@ -85,8 +85,14 @@ angular
     }
 
     //TODO: This should be implemented as a service in the future.
-    $scope.generateMap = function() {
-        latlng = {lat: model.position.latitude, lng: model.position.longitude};
+    $scope.generateMap = function(userPosition) {
+        // Sets latitude and longitude to current user's registered position.
+        var latlng = {lat: model.position.latitude, lng: model.position.longitude};
+        // If method is passed an object referring to a user that is not the local user, set center to object's position.
+        if (userPosition != null) {
+            latlng = {lat: userPosition.position.latitude, lng: userPosition.position.longitude};
+        }
+
         var mapOptions = {
             center: latlng,
             zoom: model.position.zoom,
@@ -94,23 +100,55 @@ angular
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-        var circle = new google.maps.Circle({
-            center: latlng,
-            radius: $scope.model.position.accuracy,
-            map: map,
-            fillColor: '#0000FF',
-            fillOpacity: 0.5,
-            strokeColor: '#0000FF',
-            strokeOpacity: 0.5
-        })
+        if (userPosition != null) {
+            if (userPosition.position.accuracy < 100) {
+                $scope.createUserMarker(userPosition, latlng, map, false);
+            }
+            else {
+                $scope.createUserMarker(userPosition, latlng, map, true);
+            }
+        }
+        else {
+            if (model.position.accuracy < 100) {
+                $scope.createUserMarker($scope.model, latlng, map, false);
+            }
+            else {
+                $scope.createUserMarker($scope.model, latlng, map, true);
+            }
+        }
 
-        var userMarker = new google.maps.Marker({
-            position: latlng,
-            map: map,
-            title: "Your Current Location",
-            animation: google.maps.Animation.DROP,
-            icon: circle
-        });
+    }
+
+    $scope.createUserMarker = function(user, latlng, map, circle) {
+
+        console.log("User's accuracy radius (in meters): " + user.position.accuracy);
+        if (circle) {
+            var circle = new google.maps.Circle({
+                center: latlng,
+                radius: user.position.accuracy,
+                map: map,
+                fillColor: '#0000FF',
+                fillOpacity: 0.5,
+                strokeColor: '#0000FF',
+                strokeOpacity: 0.5
+            })
+
+            var userMarker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: "Your Current Location",
+                animation: google.maps.Animation.DROP,
+                icon: circle
+            });
+        }
+        else {
+            var userMarker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: "Your Current Location",
+                animation: google.maps.Animation.DROP
+            });
+        }
     }
 
     $scope.centerMap = function() {
