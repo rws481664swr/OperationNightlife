@@ -14,7 +14,7 @@ var model = {
 // Fluid API Implementation
 angular
 
-.module("nightlifeApp", []) //TODO: module name might want to be changed.
+.module("nightlifeApp", ['ui.bootstrap']) //TODO: module name might want to be changed.
 
 .run(function(){
     var time = Date.now();
@@ -92,17 +92,26 @@ angular
         // Sets latitude and longitude to current user's registered position.
         var latlng = {lat: model.position.latitude, lng: model.position.longitude};
         // If method is passed an object referring to a user that is not the local user, set center to object's position.
+        // Used when centering map on remote user (i.e. someone in group).
         if (userPosition != null) {
             latlng = {lat: userPosition.position.latitude, lng: userPosition.position.longitude};
         }
 
+        // Sets the options of the generated map.
+        // Center: center coordinates of the map. This is the local/remote user's current location.
+        // Zoom: Zoom level from 9-18.  Larger zoom level indicates closer zoom.
+        // Draggable: Disabled because map dragging was interfering with navigating the app on a mobile device.
         var mapOptions = {
             center: latlng,
             zoom: model.position.zoom,
             draggable: false
         };
+        // Generate map on-screen.
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
+        // Checks accuracy of coordinates received about the local/remote user. If accuracy is greater than 100 meters,
+        // we generate a circle indicating that the user is somewhere inside that circle instead of placing a marker
+        // on the map.
         if (userPosition != null) {
             if (userPosition.position.accuracy < 100) {
                 $scope.createUserMarker(userPosition, latlng, map, false);
@@ -111,6 +120,7 @@ angular
                 $scope.createUserMarker(userPosition, latlng, map, true);
             }
         }
+        // If no remote user was passed to the function, we check the accuracy of the local user's coordinates.
         else {
             if (model.position.accuracy < 100) {
                 $scope.createUserMarker($scope.model, latlng, map, false);
@@ -122,9 +132,13 @@ angular
 
     }
 
+    //TODO: This should be implemented as a service in the future.
+    // Creates a marker on the map at the local/remote user's coordinates. If accuracy of those coordinates is greater
+    // than 100 meters, we instead generate a circle indicating that the user is somewhere inside the circle.
     $scope.createUserMarker = function(user, latlng, map, circle) {
-
+        // For debugging purposes.
         console.log("User's accuracy radius (in meters): " + user.position.accuracy);
+
         if (circle) {
             var circle = new google.maps.Circle({
                 center: latlng,
@@ -196,3 +210,22 @@ angular
          })
      };
 })
+
+.controller('DropdownCtrl', function ($scope) {
+//    The colletion showing group user
+    $scope.items = [
+        'User 1',
+        'User 2',
+        'User 3'
+    ];
+
+    $scope.status = {
+        isopen: false
+    };
+
+    $scope.toggleDropdown = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.status.isopen = !$scope.status.isopen;
+    };
+});
