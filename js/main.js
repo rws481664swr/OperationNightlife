@@ -14,43 +14,43 @@ angular
 .module("nightlifeApp", []) //TODO: module name might want to be changed.
 
 .run(function(){
-  var time = Date.now();
+    var time = Date.now();
     // Get your current location.
-		// onSuccess Callback
-		var onSuccess = function(position) {
-		    model.position.latitude = position.coords.latitude;
-		    model.position.longitude = position.coords.longitude;
-		    model.position.altitude = position.coords.altitude;
-		    model.position.accuracy = position.coords.accuracy;
-		    model.position.altitudeAccuracy = position.coords.altitudeAccuracy;
-		    model.position.heading = position.coords.heading;
-		    model.position.speed = position.coords.speed;
-		    model.position.timestamp =  position.timestamp;
-		    model.position.valid = true;
-            alert("Time to retrieve GPS Position object (ms): " + (Date.now() - time));
-            // TODO: Currently, this map creation function below is part of this run function in order to ensure accurate information, but it should be made into its own service function in the future.
-            latlng = {lat: model.position.latitude, lng: model.position.longitude};
-            var mapOptions = {
-                center: latlng,
-                zoom: model.position.zoom,
-                draggable: false
-            };
-            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-            var userMarker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                title: "Your Current Location",
-                animation: google.maps.Animation.DROP
-            });
-		};
-		// onError Callback
-		// This is only debugging.
-		function onError(error) {
-		    alert('code: '    + error.code    + '\n' +
-		          'message: ' + error.message + '\n');
-		}
-		// the current GPS coordinates
-		navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    // onSuccess Callback
+    var onSuccess = function(position) {
+        model.position.latitude = position.coords.latitude;
+        model.position.longitude = position.coords.longitude;
+        model.position.altitude = position.coords.altitude;
+        model.position.accuracy = position.coords.accuracy;
+        model.position.altitudeAccuracy = position.coords.altitudeAccuracy;
+        model.position.heading = position.coords.heading;
+        model.position.speed = position.coords.speed;
+        model.position.timestamp =  position.timestamp;
+        model.position.valid = true;
+        alert("Time to retrieve GPS Position object (ms): " + (Date.now() - time));
+        // TODO: Currently, this map creation function below is part of this run function in order to ensure accurate information, but it should be made into its own service function in the future.
+        latlng = {lat: model.position.latitude, lng: model.position.longitude};
+        var mapOptions = {
+            center: latlng,
+            zoom: model.position.zoom,
+            draggable: false
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        var userMarker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: "Your Current Location",
+            animation: google.maps.Animation.DROP
+        });
+    };
+    // onError Callback
+    // This is only debugging.
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+    // the current GPS coordinates
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
 })
 
 // highest level scope

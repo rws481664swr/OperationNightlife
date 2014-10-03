@@ -24,6 +24,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+//TODO: Implement methods to push an update location request to a user's phone, update the database with that information, and return the current locations to the original requestor's device
 
 // get a particular item from the model
 app.get('/model/:users/:id', function(req, res) {
@@ -57,8 +58,6 @@ app.put('/model/:users/:id', function(req, res) {
 });
 
 // add new item to the model
-// in this example we show how to use javascript promises
-// to simply asynchronous calls
 app.post('/model/:users', function(req, res) {
     console.log("post ... " + JSON.stringify(req.body));
     var users = db.get(req.params.users);
