@@ -11,7 +11,7 @@ var model = {
 // Fluid API Implementation
 angular
 
-.module("nightlifeApp", []) //TODO: module name might want to be changed.
+.module("nightlifeApp", ['ui.bootstrap']) //TODO: module name might want to be changed.
 
 .run(function(){
     var time = Date.now();
@@ -207,3 +207,22 @@ angular
          })
      };
 })
+
+.controller('DropdownCtrl', function ($scope) {
+//    The colletion showing group user
+    $scope.items = [
+        'User 1',
+        'User 2',
+        'User 3'
+    ];
+
+    $scope.status = {
+        isopen: false
+    };
+
+    $scope.toggleDropdown = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.status.isopen = !$scope.status.isopen;
+    };
+});
