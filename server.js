@@ -44,7 +44,7 @@ app.get('/model/:users', function(req, res) {
     var users = db.get(req.params.users);
     users.find({}, {}, function(e, docs) {
         console.log(JSON.stringify(docs));
-        res.json(200, docs);
+        res.status(200).json(docs);
     })
 });
 

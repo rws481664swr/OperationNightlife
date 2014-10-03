@@ -184,6 +184,7 @@ angular
          	  console.log("about to call http.get inside "+ data);
              $scope.users = data;
          })
+	//  $scope.users = db.ids();
      };
 
      $scope.deleteItem = function(item) {
