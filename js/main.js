@@ -10,18 +10,20 @@ var model = {
 	},
     users:{
 
-    }
+    },
+    uuid: -1
 };
 // Fluid API Implementation
 angular
 
 .module("nightlifeApp", ['ui.bootstrap']) //TODO: module name might want to be changed.
 
-.run(function($timeout) {
-        $timeout(function() {
-            alert("UUID: " + model.uuid);
-        }, 5000);
-    })
+.run(function() {
+    model.uuid = device.uuid;
+    var string = device.uuid;
+    alert("UUID in model: " + model.uuid);
+    alert("UUID from string: " + string);
+})
 
 .run(function(){
     var time = Date.now();
@@ -64,24 +66,24 @@ angular
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
 })
 
-.run(function($http) {
-        console.log("Putting user location " + JSON.stringify(model.position) + " in database.");
-        $http.put("/model/" + )
+//.run(function($http) {
+//        console.log("Putting user location " + JSON.stringify(model.position) + " in database.");
+//        $http.put("/model/" + )
 
 
-
-
-        function($http) {
-            $scope.putItem = function(item) {
-                console.log("putting: " + JSON.stringify(item));
-                $http.put("/model/" + item.id, item).success(function(data, status, headers, config) {
-                    console.log(JSON.stringify(['Success', data, status, headers, config]))
-                }).error(function(data, status, headers, config) {
-                    console.log(JSON.stringify(['Error', data, status, headers, config]))
-                })
-            }
-        }
-    })
+//
+//
+//        function($http) {
+//            $scope.putItem = function(item) {
+//                console.log("putting: " + JSON.stringify(item));
+//                $http.put("/model/" + item.id, item).success(function(data, status, headers, config) {
+//                    console.log(JSON.stringify(['Success', data, status, headers, config]))
+//                }).error(function(data, status, headers, config) {
+//                    console.log(JSON.stringify(['Error', data, status, headers, config]))
+//                })
+//            }
+//        }
+//    })
 
 // highest level scope
 .controller("rootCtrl", function($scope, $rootScope) {
