@@ -2,8 +2,8 @@
 
 var model = {
 	position: {
-		latitude: 42.3677816,
-		longitude: -71.2585826,
+		latitude: 42.3530134,
+		longitude: -71.0703001,
         zoom: 18,
         valid: false // To check we get the position.
 	}
