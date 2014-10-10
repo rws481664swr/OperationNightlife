@@ -1,6 +1,7 @@
 // Authors: Ari Kalfus, Burak Sezer, Sam Raphael, Wesley Wei Qian
 
 var model = {
+    userName: "",
 	position: {
 		latitude: 42.3677816,
 		longitude: -71.2585826,
@@ -15,6 +16,12 @@ var model = {
 angular
 
 .module("nightlifeApp", ['ui.bootstrap']) //TODO: module name might want to be changed.
+
+.run(function($timeout) {
+        $timeout(function() {
+            alert("UUID: " + model.uuid);
+        }, 5000);
+    })
 
 .run(function(){
     var time = Date.now();
@@ -31,6 +38,7 @@ angular
         model.position.timestamp =  position.timestamp;
         model.position.valid = true;
         alert("Time to retrieve GPS Position object (ms): " + (Date.now() - time));
+
         // TODO: Currently, this map creation function below is part of this run function in order to ensure accurate information, but it should be made into its own service function in the future.
         latlng = {lat: model.position.latitude, lng: model.position.longitude};
         var mapOptions = {
@@ -55,6 +63,25 @@ angular
     // the current GPS coordinates
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
 })
+
+.run(function($http) {
+        console.log("Putting user location " + JSON.stringify(model.position) + " in database.");
+        $http.put("/model/" + )
+
+
+
+
+        function($http) {
+            $scope.putItem = function(item) {
+                console.log("putting: " + JSON.stringify(item));
+                $http.put("/model/" + item.id, item).success(function(data, status, headers, config) {
+                    console.log(JSON.stringify(['Success', data, status, headers, config]))
+                }).error(function(data, status, headers, config) {
+                    console.log(JSON.stringify(['Error', data, status, headers, config]))
+                })
+            }
+        }
+    })
 
 // highest level scope
 .controller("rootCtrl", function($scope, $rootScope) {

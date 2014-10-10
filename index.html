@@ -8,6 +8,7 @@
 	<script src="js/angular.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+    <script src="js/cordova.js"></script>
 
 	<!-- Implement main JS file -->
 	<script src="js/main.js"></script>
@@ -22,7 +23,7 @@
 	</style>
 </head>
 
-<body ng-style="{'background-image': 'url(images/tweed.png)'}" ng-controller="rootCtrl" ng-cloak>
+<body ng-style="{'background-image': 'url(images/tweed.png)'}" id="body" ng-controller="rootCtrl" ng-cloak>
 	<!-- This is for the Facebook SDK. Leave for now until we start working on this. -->
 	<!-- Must be the first script after the body tag. -->
 	<!-- <script src="js/FacebookAuth.js"></script> -->
@@ -75,11 +76,20 @@
 		<ul>
 
 			<li ng-repeat="user in users">
-				<p>"Name:" {{user.user}}</p>
-                <p>"Latitude:" {{user.latitude}}</p>
-                <p>"Longitude: "{{user.longitude}}</p>
+				<p>"Name:" {{user.position.userName}}</p>
+                <p>"Latitude:" {{user.position.latitude}}</p>
+                <p>"Longitude: "{{user.position.longitude}}</p>
 			</li>
 		</ul>
 	</div>
+
+<script type="text/javascript">
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    function onDeviceReady() {
+        var scope = angular.element("#body").scope;
+        scope.model.uuid = device.uuid;
+    }
+</script>
 
 </body>
