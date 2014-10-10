@@ -73,8 +73,11 @@
 		<h2 ng-style="{'font-family': 'Arial Narrow'}">TESTING DB</h2>
 		<button ng-click="getItems()">GET USERS FOR DB TESTING</button>
 		<ul>
-			<li>
-				<p>{{users[0].name}}</p>
+
+			<li ng-repeat="user in users">
+				<p>"Name:" {{user.user}}</p>
+                <p>"Latitude:" {{user.latitude}}</p>
+                <p>"Longitude: "{{user.longitude}}</p>
 			</li>
 		</ul>
 	</div>

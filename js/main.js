@@ -2,11 +2,14 @@
 
 var model = {
 	position: {
-		latitude: 42.3530134,
-		longitude: -71.0703001,
+		latitude: 42.3677816,
+		longitude: -71.2585826,
         zoom: 18,
         valid: false // To check we get the position.
-	}
+	},
+    users:{
+
+    }
 };
 // Fluid API Implementation
 angular
@@ -218,6 +221,7 @@ angular
          	  console.log("about to call http.get inside "+ data);
              $scope.users = data;
          })
+	//  $scope.users = db.ids();
      };
 
      $scope.deleteItem = function(item) {
