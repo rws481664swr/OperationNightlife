@@ -33,8 +33,8 @@ angular
             })
             .error(function(err) {
                 alert("Stored DBid: " + id);
-                window.localStorage.setItem("DBid", id000);
-                    putPositionInDB();
+                window.localStorage.setItem("DBid", id);
+                putPositionInDB();
             })
         };
         function putPositionInDB() {
