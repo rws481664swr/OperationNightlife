@@ -51,9 +51,7 @@ app.get('/model/:users', function(req, res) {
 // change an item in the model
 app.put('/model/:users/:id', function(req, res) {
     var users = db.get(req.params.users);
-    users.findAndModify({'_id': req.params.id}, { //this is not working
-        $set:req.data
-    });
+    req.data.save(users);
     res.json(200, {});
 });
 
