@@ -39,11 +39,11 @@ angular
         };
         function putPositionInDB() {
             alert("Starting putPositionInDB");
-            var data = {
+            var toBePut = {
                 id: window.localStorage.getItem("DBid"),
-                data: model.position
+                data: model.position.latitude
             }
-            $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + data.id, data)
+            $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + toBePut.id, toBePut)
                 .success(function(data, status, headers, config) {
                     alert("Position saved in database, ID: " + window.localStorage.getItem("DBid"));
                 })
