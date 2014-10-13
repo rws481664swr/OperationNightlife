@@ -50,10 +50,21 @@ app.get('/model/:users', function(req, res) {
 
 // change an item in the model
 app.put('/model/:users/:id', function(req, res) {
-    console.log();
-    console.log("Parameters: " + JSON.stringify(req.params));
-    console.log("Body: " + JSON.stringify(req.body));
-    console.log("Data: " + JSON.stringify(req.body.data));
+    var users = db.get(req.params.users);
+    users.insert({
+        "id": req.params.id,
+        "position": req.body.data
+    })
+        .success(function(data, status, headers, config {
+            users.update({
+                "id": req.params.id,
+                "position": req.body.data
+            })
+        })
+
+    users.findAndModify({'_id': req.params.id}, { //this is not working
+        $set:req.data
+    });
     res.json(200, {});
 });
 
