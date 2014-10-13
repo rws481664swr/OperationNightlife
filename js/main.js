@@ -18,30 +18,41 @@ angular
 
 .module("nightlifeApp", ['ui.bootstrap']) //TODO: module name might want to be changed.
 
-.run(function() {
+.run(function($http) {
     document.addEventListener("deviceready", onDeviceReady, false);
 
     function onDeviceReady() {
         function retrieveDBid(id) {
-            $http.get("/model/users/" + id).success(function(data) {
+            alert("Staring retrieveDBid");
+            $http.get("http://leiner.cs-i.brandeis.edu:5000/model/users/" + id)
+                .success(function(data) {
                 alert("Recursive call: " + id);
                 retrieveDBid(id+1);
             })
             .error(function(err) {
                 alert("Stored DBid: " + id);
                 window.localStorage.setItem("DBid", id);
+                    putPositionInDB();
             })
         };
         function putPositionInDB() {
-            $http.put("/model/users/" + window.localStorage.getItem("DBid"))
+            alert("Starting putPositionInDB");
+            var data = {
+                id: window.localStorage.getItem("DBid"),
+                position: model.position
+            }
+            $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + JSON.stringify(data))
                 .success(function(data) {
                     console.log("Position saved in database, ID: " + window.localStorage.getItem("DBid"));
+                })
+                .error(function(data) {
+                    alert("Error storing location in database.");
                 })
         }
 
         if (window.localStorage.getItem("DBid") == null) {
             alert("no DBid");
-            retrieveDBid(1);
+            retrieveDBid('543b337b123d107e15dc674e');
         }
         else {
             alert("Stored DBid!");
@@ -258,7 +269,7 @@ angular
 
 	 $scope.putItem = function(item) {
          console.log("putting: " + JSON.stringify(item));
-         $http.put("/model/" + item.id, item).success(function(data, status, headers, config) {
+         $http.put("leiner.cs-i.brandeis.edu:5000/model/" + item.id, item).success(function(data, status, headers, config) {
              console.log(JSON.stringify(['Success', data, status, headers, config]))
          }).error(function(data, status, headers, config) {
              console.log(JSON.stringify(['Error', data, status, headers, config]))
@@ -267,7 +278,7 @@ angular
 
      $scope.postItem = function(item) {
          console.log("posting: " + JSON.stringify(item));
-         $http.post("/model", item).success(function(data, status, headers, config) {
+         $http.post("leiner.cs-i.brandeis.edu:5000/model", item).success(function(data, status, headers, config) {
              console.log(JSON.stringify(['Success', data, status, headers, config]))
          }).error(function(data, status, headers, config) {
              console.log(JSON.stringify(['Error', data, status, headers, config]))
@@ -275,16 +286,18 @@ angular
      }
 
      $scope.getItems = function() {
-     	console.log("about to call http.get");
-         $http.get("/model/users").success(function(data) {
-         	  console.log("about to call http.get inside "+ data);
+         $http.get("http://leiner.cs-i.brandeis.edu:5000/model/users").success(function(data) {
+         	 alert("GET success: "+ JSON.stringify(data));
              $scope.users = data;
          })
+             .error(function(err) {
+                 alert("Error: " + JSON.stringify(err));
+             })
 	//  $scope.users = db.ids();
      };
 
      $scope.deleteItem = function(item) {
-         $http.delete("/model/"+item.id).success(function() {
+         $http.delete("leiner.cs-i.brandeis.edu:5000/model/"+item.id).success(function() {
              console.log("just deleted "+JSON.stringify(item));
              $scope.getItems();
          })
