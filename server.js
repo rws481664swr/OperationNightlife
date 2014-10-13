@@ -55,12 +55,10 @@ app.put('/model/:users/:id', function(req, res) {
         "id": req.params.id,
         "position": req.body.data
     })
-        .success(function(data, status, headers, config {
-            users.update({
-                "id": req.params.id,
-                "position": req.body.data
-            })
-        })
+    users.update({
+        "id": req.params.id,
+        "position": req.body.data
+    })
 
     users.findAndModify({'_id': req.params.id}, { //this is not working
         $set:req.data
