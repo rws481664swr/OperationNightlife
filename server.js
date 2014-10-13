@@ -52,7 +52,8 @@ app.get('/model/:users', function(req, res) {
 app.put('/model/:users/:id', function(req, res) {
     console.log();
     console.log("Parameters: " + JSON.stringify(req.params));
-    console.log("Data: " + JSON.stringify(req.params.data));
+    console.log("Body: " + JSON.stringify(req.body));
+    console.log("Data: " + JSON.stringify(req.body.data));
     res.json(200, {});
 });
 
