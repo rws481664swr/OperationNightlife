@@ -40,7 +40,7 @@ angular
         function putPositionInDB() {
             alert("Starting putPositionInDB");
             var toBePut = {
-                id: window.localStorage.getItem("DBid"),
+                id: 1,
                 data: model.position
             }
             $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + toBePut.id, toBePut)
