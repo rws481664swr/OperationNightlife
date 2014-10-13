@@ -32,9 +32,9 @@ app.get('/model/:users/:id', function(req, res) {
     users.find({_id: req.params.id}, {}, function(e, docs) {
         console.log(JSON.stringify(docs));
         if (docs.length>0)
-            res.json(200, docs[0]);
+            res.status(200).json(docs[0]);
         else
-            res.json(404,{});
+            res.status(404).json({});
     })
 });
 
@@ -51,19 +51,17 @@ app.get('/model/:users', function(req, res) {
 // change an item in the model
 app.put('/model/:users/:id', function(req, res) {
     var users = db.get(req.params.users);
+    console.log("Inserting");
     users.insert({
         "id": req.params.id,
         "position": req.body.data
     })
+    console.log("Updating");
     users.update({
         "id": req.params.id,
         "position": req.body.data
     })
-
-    users.findAndModify({'_id': req.params.id}, { //this is not working
-        $set:req.data
-    });
-    res.json(200, {});
+    res.status(200).json({});
 });
 
 // add new item to the model
@@ -83,7 +81,7 @@ app.delete('/model/:users/:id', function(req, res) {
     users.remove({
         _id: id
     });
-    res.json(200, {});
+    res.status(200).json({});
 });
 
 
