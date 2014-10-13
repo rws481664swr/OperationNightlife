@@ -65,8 +65,8 @@ app.put('/model/:users/:id', function(req, res) {
 
 // add new item to the model
 app.post('/model/:users', function(req, res) {
-    console.log("post ... " + JSON.stringify(req.body));
     var users = db.get(req.params.users);
+    console.log("Body: " + JSON.stringify(req.body));
     var promise = users.insert(req.body);
     promise.success(function(doc){res.json(200,doc)});
     promise.error(function(error){res.json(404,error)});
