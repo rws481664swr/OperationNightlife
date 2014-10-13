@@ -51,11 +51,11 @@ app.get('/model/:users', function(req, res) {
 // change an item in the model
 app.put('/model/:users/:id', function(req, res) {
     var users = db.get(req.params.users);
-    console.log("Inserting");
-    users.insert({
-        "id": req.params.id,
-        "position": req.body.data
-    })
+//    console.log("Inserting");
+//    users.insert({
+//        "id": req.params.id,
+//        "position": req.body.data
+//    })
     console.log("Updating");
     users.update({
         "id": req.params.id,
