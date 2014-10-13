@@ -60,7 +60,7 @@ app.put('/model/:users/:id', function(req, res) {
 //        "id": req.params.id,
 //        "position": req.body.data
 //    })
-    res.status(200).json({});
+    res.status(200).json({"id": req.id});
 });
 
 // add new item to the model

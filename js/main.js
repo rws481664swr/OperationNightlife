@@ -1,7 +1,7 @@
 // Authors: Ari Kalfus, Burak Sezer, Sam Raphael, Wesley Wei Qian
 
 var model = {
-    userName: "",
+    userName: "Ari Kalfus",
 	position: {
 		latitude: 42.3677816,
 		longitude: -71.2585826,
@@ -22,28 +22,20 @@ angular
     document.addEventListener("deviceready", onDeviceReady, false);
 
     function onDeviceReady() {
-        function retrieveDBid(id) {
-            alert("Staring retrieveDBid");
-            $http.get("http://leiner.cs-i.brandeis.edu:5000/model/users/" + id)
-                .success(function(data) {
-                alert("Recursive call: " + id);
-                var id = parseInt(id, 16);
-                id++;
-                retrieveDBid(id.toString(16));
+        function post() {
+            alert("Staring post");
+            $http.post("leiner.cs-i.brandeis.edu:5000/model", {"name": model.userName, "position": model.position})
+                .success(function(data, status, headers, config) {
+                alert(JSON.stringify(['Success', data, status, headers, config]))
             })
-            .error(function(err) {
-                alert("Stored DBid: " + id);
-                window.localStorage.setItem("DBid", id);
-                putPositionInDB();
+                .error(function(data, status, headers, config) {
+                alert(JSON.stringify(['Error', data, status, headers, config]))
             })
-        };
-        function putPositionInDB() {
+        }
+        function put(id) {
             alert("Starting putPositionInDB");
-            var toBePut = {
-                id: 1,
-                data: model.position
-            }
-            $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + toBePut.id, toBePut)
+            $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + window.localStorage.getItem("DBid"),
+                {"name": model.userName, "position": model.position})
                 .success(function(data, status, headers, config) {
                     alert("Position saved in database, ID: " + window.localStorage.getItem("DBid"));
                 })
@@ -54,11 +46,11 @@ angular
 
         if (window.localStorage.getItem("DBid") == null) {
             alert("no DBid");
-            retrieveDBid('543b337b123d107e15dc674e');
+            post();
         }
         else {
             alert("Retrieved stored DBid: " + window.localStorage.getItem("DBid"));
-            putPositionInDB();
+            put();
         }
 
     }
