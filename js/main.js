@@ -22,14 +22,32 @@ angular
     document.addEventListener("deviceready", onDeviceReady, false);
 
     function onDeviceReady() {
-        function retrieveDBid() {
-            console.log("about to call http.get");
-            $http.get("/model/users").success(function(data) {
-                $scope.users = data;
+        function retrieveDBid(id) {
+            $http.get("/model/users/" + id).success(function(data) {
+                alert("Recursive call: " + id);
+                retrieveDBid(id+1);
+            })
+            .error(function(err) {
+                alert("Stored DBid: " + id);
+                window.localStorage.setItem("DBid", id);
             })
         };
-        alert(JSON.stringify(window.localStorage));
-        alert(JSON.stringify(window.localStorage.key(0)));
+        function putPositionInDB() {
+            $http.put("/model/users/" + window.localStorage.getItem("DBid"))
+                .success(function(data) {
+                    console.log("Position saved in database, ID: " + window.localStorage.getItem("DBid"));
+                })
+        }
+
+        if (window.localStorage.getItem("DBid") == null) {
+            alert("no DBid");
+            retrieveDBid(1);
+        }
+        else {
+            alert("Stored DBid!");
+            putPositionInDB();
+        }
+
     }
 })
 
