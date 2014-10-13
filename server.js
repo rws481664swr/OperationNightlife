@@ -53,7 +53,7 @@ app.put('/model/:users/:id', function(req, res) {
     var users = db.get(req.params.users);
     users.insert({
         "_id": req.params.id,
-        "position": req.data
+        "position": req.params.data
     });
     res.json(200, {});
 });
