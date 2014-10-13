@@ -50,7 +50,8 @@ app.get('/model/:users', function(req, res) {
 
 // change an item in the model
 app.put('/model/:users/:id', function(req, res) {
-    alert(JSON.stringify(req.params));
+    console.log("\n");
+    console.log(JSON.stringify(req.params));
     res.json(200, {});
 });
 
