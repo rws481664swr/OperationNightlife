@@ -27,7 +27,9 @@ angular
             $http.get("http://leiner.cs-i.brandeis.edu:5000/model/users/" + id)
                 .success(function(data) {
                 alert("Recursive call: " + id);
-                retrieveDBid(parseInt(parseInt(id.toString(16))+1, 16));
+                var id = parseInt(id, 16);
+                id++;
+                retrieveDBid(id.toString(16));
             })
             .error(function(err) {
                 alert("Stored DBid: " + id);
@@ -44,11 +46,9 @@ angular
             $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + data.id, data)
                 .success(function(data, status, headers, config) {
                     alert("Position saved in database, ID: " + window.localStorage.getItem("DBid"));
-                    alert(JSON.stringify(data) + ", " + JSON.stringify(status) + ", " + JSON.stringify(headers) + ", " + JSON.stringify(config));
                 })
                 .error(function(data, status, headers, config) {
                     alert("Error storing location in database, ID: " + window.localStorage.getIitem("BDid"));
-                    alert(JSON.stringify(data) + ", " + JSON.stringify(status) + ", " + JSON.stringify(headers) + ", " + JSON.stringify(config));
                 })
         }
 
@@ -57,7 +57,7 @@ angular
             retrieveDBid('543b337b123d107e15dc674e');
         }
         else {
-            alert("Stored DBid!");
+            alert("Retrieved stored DBid: " + window.localStorage.getItem("DBid"));
             putPositionInDB();
         }
 
@@ -269,41 +269,42 @@ angular
 .controller("userCtrl", function($scope, $rootScope, $http) {
 	$scope.users = [];
 
-	 $scope.putItem = function(item) {
-         console.log("putting: " + JSON.stringify(item));
-         $http.put("leiner.cs-i.brandeis.edu:5000/model/" + item.id, item).success(function(data, status, headers, config) {
-             console.log(JSON.stringify(['Success', data, status, headers, config]))
-         }).error(function(data, status, headers, config) {
-             console.log(JSON.stringify(['Error', data, status, headers, config]))
-         })
-     }
+//	 $scope.putItem = function(item) {
+//         console.log("putting: " + JSON.stringify(item));
+//         $http.put("leiner.cs-i.brandeis.edu:5000/model/" + item.id, item).success(function(data, status, headers, config) {
+//             console.log(JSON.stringify(['Success', data, status, headers, config]))
+//         }).error(function(data, status, headers, config) {
+//             console.log(JSON.stringify(['Error', data, status, headers, config]))
+//         })
+//     }
 
-     $scope.postItem = function(item) {
-         console.log("posting: " + JSON.stringify(item));
-         $http.post("leiner.cs-i.brandeis.edu:5000/model", item).success(function(data, status, headers, config) {
-             console.log(JSON.stringify(['Success', data, status, headers, config]))
-         }).error(function(data, status, headers, config) {
-             console.log(JSON.stringify(['Error', data, status, headers, config]))
-         })
-     }
+//     $scope.postItem = function(item) {
+//         console.log("posting: " + JSON.stringify(item));
+//         $http.post("leiner.cs-i.brandeis.edu:5000/model", item).success(function(data, status, headers, config) {
+//             console.log(JSON.stringify(['Success', data, status, headers, config]))
+//         }).error(function(data, status, headers, config) {
+//             console.log(JSON.stringify(['Error', data, status, headers, config]))
+//         })
+//     }
 
      $scope.getItems = function() {
          $http.get("http://leiner.cs-i.brandeis.edu:5000/model/users").success(function(data) {
          	 alert("GET success: "+ JSON.stringify(data));
-             $scope.users = data;
+             for (var i = 0; i < data.length(); i++) {
+                 $scope.users += data.position;
+             }
          })
              .error(function(err) {
                  alert("Error: " + JSON.stringify(err));
              })
-	//  $scope.users = db.ids();
      };
 
-     $scope.deleteItem = function(item) {
-         $http.delete("leiner.cs-i.brandeis.edu:5000/model/"+item.id).success(function() {
-             console.log("just deleted "+JSON.stringify(item));
-             $scope.getItems();
-         })
-     };
+//     $scope.deleteItem = function(item) {
+//         $http.delete("leiner.cs-i.brandeis.edu:5000/model/"+item.id).success(function() {
+//             console.log("just deleted "+JSON.stringify(item));
+//             $scope.getItems();
+//         })
+//     };
 })
 
 .controller('DropdownCtrl', function ($scope) {
