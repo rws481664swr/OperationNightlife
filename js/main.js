@@ -41,7 +41,7 @@ angular
             alert("Starting putPositionInDB");
             var toBePut = {
                 id: window.localStorage.getItem("DBid"),
-                data: model.position.latitude
+                data: model.position
             }
             $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + toBePut.id, toBePut)
                 .success(function(data, status, headers, config) {
