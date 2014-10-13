@@ -27,7 +27,7 @@ angular
             $http.get("http://leiner.cs-i.brandeis.edu:5000/model/users/" + id)
                 .success(function(data) {
                 alert("Recursive call: " + id);
-                retrieveDBid(id+1);
+                retrieveDBid(parseInt(parseInt(id.toString(16))+1, 16));
             })
             .error(function(err) {
                 alert("Stored DBid: " + id);
@@ -39,14 +39,16 @@ angular
             alert("Starting putPositionInDB");
             var data = {
                 id: window.localStorage.getItem("DBid"),
-                position: model.position
+                data: model.position
             }
-            $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + JSON.stringify(data))
-                .success(function(data) {
-                    console.log("Position saved in database, ID: " + window.localStorage.getItem("DBid"));
+            $http.put("http://leiner.cs-i.brandeis.edu:5000/model/users/" + data.id, data)
+                .success(function(data, status, headers, config) {
+                    alert("Position saved in database, ID: " + window.localStorage.getItem("DBid"));
+                    alert(JSON.stringify(data) + ", " + JSON.stringify(status) + ", " + JSON.stringify(headers) + ", " + JSON.stringify(config));
                 })
-                .error(function(data) {
-                    alert("Error storing location in database.");
+                .error(function(data, status, headers, config) {
+                    alert("Error storing location in database, ID: " + window.localStorage.getIitem("BDid"));
+                    alert(JSON.stringify(data) + ", " + JSON.stringify(status) + ", " + JSON.stringify(headers) + ", " + JSON.stringify(config));
                 })
         }
 
