@@ -32,9 +32,9 @@ app.get('/model/:users/:id', function(req, res) {
     users.find({_id: req.params.id}, {}, function(e, docs) {
         console.log(JSON.stringify(docs));
         if (docs.length>0)
-            res.json(200, docs[0]);
+            res.status(200).json(docs[0]);
         else
-            res.json(404,{});
+            res.status(404).json({});
     })
 });
 
@@ -51,16 +51,22 @@ app.get('/model/:users', function(req, res) {
 // change an item in the model
 app.put('/model/:users/:id', function(req, res) {
     var users = db.get(req.params.users);
+    console.log("Inserting");
     users.insert({
-        "_id": req.params.id
-    }, req.body);
-    res.json(200, {});
+        "position": req.body.data
+    })
+//    console.log("Updating");
+//    users.update({
+//        "id": req.params.id,
+//        "position": req.body.data
+//    })
+    res.status(200).json({"id": req.id});
 });
 
 // add new item to the model
 app.post('/model/:users', function(req, res) {
-    console.log("post ... " + JSON.stringify(req.body));
     var users = db.get(req.params.users);
+    console.log("Body: " + JSON.stringify(req.body));
     var promise = users.insert(req.body);
     promise.success(function(doc){res.json(200,doc)});
     promise.error(function(error){res.json(404,error)});
@@ -74,7 +80,7 @@ app.delete('/model/:users/:id', function(req, res) {
     users.remove({
         _id: id
     });
-    res.json(200, {});
+    res.status(200).json({});
 });
 
 
